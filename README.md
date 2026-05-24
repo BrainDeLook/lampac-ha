@@ -7,7 +7,7 @@
 
 ![Lampac NextGen Logo](lampac/logo.png)
 
-Home Assistant Add-on for [Lampac NextGen](https://github.com/lampac-nextgen/lampac) — a self-hosted backend that aggregates streaming links from 60+ VOD providers for use with the [Lampa](https://lampa.mx) player.
+Home Assistant Add-on for [Lampac NextGen](https://github.com/lampac-nextgen/lampac) — a self-hosted backend that aggregates streaming links from 60+ VOD providers for use with the [Lampa](http://lampa.mx) player.
 
 ## Features
 
