@@ -7,7 +7,7 @@
 
 ![Lampac NextGen Logo](lampac/logo.png)
 
-Дополнение для Home Assistant на основе [Lampac NextGen](https://github.com/lampac-nextgen/lampac) — самохостируемый бэкенд для агрегации ссылок с 60+ VOD-провайдеров для плеера [Lampa](https://lampa.mx).
+Дополнение для Home Assistant на основе [Lampac NextGen](https://github.com/lampac-nextgen/lampac) — самохостируемый бэкенд для агрегации ссылок с 60+ VOD-провайдеров для плеера [Lampa](http://lampa.mx).
 
 ## Возможности
 
