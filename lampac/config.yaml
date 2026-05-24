@@ -1,0 +1,42 @@
+name: "Lampac NextGen"
+description: "Self-hosted backend for Lampa."
+version: "1.0.0"
+slug: "lampac"
+url: https://github.com/BrainDeLook/lampac-ha
+arch:
+  - aarch64
+  - amd64
+init: false
+webui: http://[HOST]:[PORT:9118]/lampa-main/index.html
+panel_icon: mdi:television-play
+panel_title: "Lampac"
+options:
+  root_password: "changeme"
+  admin_panel_url: "http://YOUR_HA_IP:9118/adminpanel/auth"
+  enable_admin_panel: true
+  enable_torrserver: true
+  enable_jacred: true
+  enable_russian_vod: true
+  enable_anime: true
+  enable_adult: false
+  enable_torrent_other: true
+  enable_foreign: true
+  enable_ukraine: true
+schema:
+  root_password: str
+  admin_panel_url: str
+  enable_admin_panel: bool
+  enable_torrserver: bool
+  enable_jacred: bool
+  enable_russian_vod: bool
+  enable_anime: bool
+  enable_adult: bool
+  enable_torrent_other: bool
+  enable_foreign: bool
+  enable_ukraine: bool
+ports:
+  9118/tcp: 9118
+ports_description:
+  9118/tcp: Lampac API + AdminPanel (/adminpanel/auth)
+map:
+  - data:rw
