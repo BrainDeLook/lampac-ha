@@ -17,8 +17,7 @@ echo "Starting Lampac NextGen..."
 echo "${ROOT_PASSWORD}" > /lampac/passwd
 echo "Root password configured"
 
-# Базовые отключённые модули
-SKIP_MODULES='"Catalog","DLNA","Tracks","Transcoding","WebLog","CacheMedia","ProxyLimiter","ForkPlayerXML","MsxNative","TelegramAuth","TelegramAuthBot"'
+SKIP_MODULES='"Catalog","DLNA","Tracks","Transcoding","CacheMedia","ProxyLimiter","ForkPlayerXML","MsxNative","TelegramAuth","TelegramAuthBot"'
 
 # Русские VOD (Kinoflix, Vibix, Collaps, Zetflix, Rezka, Filmix, Alloha, Kodik, HDVB и др.)
 if [ "$ENABLE_RUSSIAN_VOD" = "false" ]; then
@@ -52,7 +51,7 @@ fi
 
 # Зарубежные
 if [ "$ENABLE_FOREIGN" = "false" ]; then
-    SKIP_MODULES="$SKIP_MODULES,\"PlayEmbed\",\"SmashyStream\",\"TwoEmbed\",\"RgShows\",\"VidSrc\",\"AutoEmbed\",\"MovPI\",\"VidLink\",\"HydraFlix\",\"Geosaitebi\",\"BamBoo\",\"AsiaGe\""
+    SKIP_MODULES="$SKIP_MODULES,\"PlayEmbed\",\"SmashyStream\",\"TwoEmbed\",\"RgShows\",\"VidSrc\",\"AutoEmbed\",\"MovPI\",\"VidLink\",\"HydraFlix\""
 fi
 
 # Украинские
@@ -71,7 +70,6 @@ else
     SKIP_MODULES="$SKIP_MODULES,\"AdminPanel\""
 fi
 
-# Создаём init.conf если его нет
 if [ ! -f /lampac/init.conf ]; then
     cat > /lampac/init.conf << CONF
 {
