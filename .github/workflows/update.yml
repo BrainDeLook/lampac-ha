@@ -1,0 +1,51 @@
+name: Auto-update Lampac version
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get latest Lampac version
+        id: lampac
+        run: |
+          LATEST=$(curl -s https://api.github.com/repos/lampac-nextgen/lampac/releases/latest | jq -r '.tag_name' | sed 's/^v//')
+          echo "version=$LATEST" >> $GITHUB_OUTPUT
+          echo "Latest Lampac version: $LATEST"
+
+      - name: Get current addon version
+        id: current
+        run: |
+          CURRENT=$(grep '^version:' lampac/config.yaml | awk '{print $2}' | tr -d '"')
+          echo "version=$CURRENT" >> $GITHUB_OUTPUT
+          echo "Current addon version: $CURRENT"
+
+      - name: Update files if version changed
+        if: steps.lampac.outputs.version != steps.current.outputs.version
+        run: |
+          NEW_VERSION="${{ steps.lampac.outputs.version }}"
+          DATE=$(date +%Y-%m-%d)
+
+          sed -i "s/^version: .*/version: \"${NEW_VERSION}\"/" lampac/config.yaml
+
+          printf "# Changelog\n\n## %s (%s)\n\n- Update to latest version from Lampac NextGen (changelog: https://github.com/lampac-nextgen/lampac/releases/tag/v%s)\n\n" \
+            "$NEW_VERSION" "$DATE" "$NEW_VERSION" > /tmp/changelog_header.md
+          tail -n +2 lampac/CHANGELOG.md >> /tmp/changelog_header.md
+          mv /tmp/changelog_header.md lampac/CHANGELOG.md
+
+          echo "Updated to $NEW_VERSION"
+
+      - name: Commit and push
+        if: steps.lampac.outputs.version != steps.current.outputs.version
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add lampac/config.yaml lampac/CHANGELOG.md
+          git commit -m "chore: update Lampac to v${{ steps.lampac.outputs.version }}"
+          git push
