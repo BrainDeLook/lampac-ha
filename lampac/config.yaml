@@ -1,6 +1,6 @@
 name: "Lampac NextGen"
 description: "Self-hosted backend for Lampa."
-version: "1.29.10"
+version: "1.29.10-1"
 slug: "lampac"
 url: https://github.com/BrainDeLook/lampac-ha
 arch:
@@ -14,28 +14,14 @@ options:
   root_password: "changeme"
   admin_panel_url: "http://YOUR_HA_IP:9118/adminpanel/auth"
   enable_admin_panel: true
-  enable_stats: true
-  enable_torrserver: true
-  enable_jacred: true
-  enable_russian_vod: true
-  enable_anime: true
-  enable_adult: false
-  enable_torrent_other: true
-  enable_foreign: true
-  enable_ukraine: true
+  enable_torrserver: false
+  custom_skip_modules: ""
 schema:
   root_password: str
   admin_panel_url: str
   enable_admin_panel: bool
-  enable_stats: bool
   enable_torrserver: bool
-  enable_jacred: bool
-  enable_russian_vod: bool
-  enable_anime: bool
-  enable_adult: bool
-  enable_torrent_other: bool
-  enable_foreign: bool
-  enable_ukraine: bool
+  custom_skip_modules: str
 ports:
   9118/tcp: 9118
 ports_description:
