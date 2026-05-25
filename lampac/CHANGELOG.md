@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.29.9 (2026-05-25)
+
+- Update to latest version from Lampac NextGen (changelog: https://github.com/lampac-nextgen/lampac/releases/tag/v1.29.9)
+
+
 ## 1.29.8 (2026-05-24)
 
 - Update to latest version from Lampac NextGen (changelog: https://github.com/lampac-nextgen/lampac/releases/tag/v1.29.8)
