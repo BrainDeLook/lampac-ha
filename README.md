@@ -7,14 +7,13 @@
 
 ![Lampac NextGen Logo](lampac/logo.png)
 
-Home Assistant Add-on for [Lampac NextGen](https://github.com/lampac-nextgen/lampac) — a self-hosted backend that aggregates streaming links from 60+ VOD providers for use with the [Lampa](http://lampa.mx) player.
+Home Assistant Add-on for [Lampac NextGen](https://github.com/lampac-nextgen/lampac) — a self-hosted backend that aggregates streaming links from 60+ VOD providers for use with the [Lampa](https://lampa.mx) player.
 
 ## Features
 
-- 🎬 60+ VOD providers: Rezka, Filmix, Kodik, Alloha, HDVB and many more
-- 🗂️ Module groups with toggle switches — enable only what you need
-- 🔞 Adult content disabled by default
-- 🛠️ **AdminPanel** built-in — manage config via web UI
+- 🎬 60+ VOD providers available
+- 🛠️ **AdminPanel** built-in — manage config and modules via web UI
+- 📊 Statistics dashboard included
 - 🔄 Auto-updates via GitHub Actions
 - 💾 Persistent data across restarts
 
@@ -27,7 +26,7 @@ Home Assistant Add-on for [Lampac NextGen](https://github.com/lampac-nextgen/lam
 1. Click the button above to add this repository to Home Assistant
 2. Go to **Settings → Add-ons → Add-on Store**
 3. Find **Lampac NextGen** and click **Install**
-4. Configure the add-on (see Configuration below)
+4. Configure the add-on
 5. Click **Start**
 
 ### Manual install
@@ -43,24 +42,180 @@ Home Assistant Add-on for [Lampac NextGen](https://github.com/lampac-nextgen/lam
 |--------|-------------|---------|
 | `root_password` | AdminPanel root password | `changeme` |
 | `admin_panel_url` | AdminPanel URL (replace YOUR_HA_IP) | `http://YOUR_HA_IP:9118/adminpanel/auth` |
-| `enable_admin_panel` | Enable AdminPanel module | `true` |
-| `enable_stats` | Enable Stats in AdminPanel | `true` |
-| `enable_russian_vod` | Russian VOD: Rezka, Filmix, Kodik, Alloha, HDVB, etc. | `true` |
-| `enable_anime` | Anime sources | `true` |
-| `enable_adult` | Adult content (18+) | `false` |
-| `enable_torrserver` | TorrServer integration | `true` |
-| `enable_jacred` | JacRed torrent indexer | `true` |
-| `enable_torrent_other` | Other torrent sources | `true` |
-| `enable_foreign` | Foreign sources (VidSrc, AutoEmbed, etc.) | `true` |
-| `enable_ukraine` | Ukrainian sources | `true` |
+| `enable_admin_panel` | Enable AdminPanel + Statistics | `true` |
+| `enable_torrserver` | Enable TorrServer integration | `false` |
+| `custom_skip_modules` | Additional modules to disable (comma-separated) | `""` |
+
+## How to Enable Modules
+
+By default **all VOD modules are disabled**. To enable them:
+
+1. Open AdminPanel at `http://YOUR_HA_IP:9118/adminpanel/auth`
+2. Go to `init.conf` editor
+3. Find the `BaseModule.SkipModules` array and **remove** the module names you want to enable
+4. Save and restart the add-on
+
+Or use the `custom_skip_modules` field to add **extra** modules to the disabled list.
+
+---
+
+## Module Reference
+
+> ⚠️ **Warning:** Modules marked with 🔒 are **system modules** — do not add them to `SkipModules` or the add-on may stop working.
+
+---
+
+### 🔒 System Modules (do not disable)
+
+| Module | Purpose |
+|--------|---------|
+| `Online` | Core routing engine for all VOD sources |
+| `SyncEvents` | Event synchronization between modules |
+| `Sync` | Config sync service |
+| `Storage` | Data storage service |
+| `TimeCode` | Playback position saving |
+| `CorsMedia` | CORS proxy for media streams |
+| `CubProxy` | Proxy service |
+| `Corseu` | EU CORS proxy |
+| `TmdbProxy` | TMDB API proxy (posters, metadata) |
+| `Kit` | Core toolkit |
+| `NextHUB` | Lampa plugin hub |
+| `LampaWeb` | Lampa web UI |
+| `WebLog` | Request logging (needed for AdminPanel) |
+
+---
+
+### 🎬 Russian VOD
+
+To enable — remove the module name from `SkipModules` in `init.conf`.
+
+| Module | Description | Notes |
+|--------|-------------|-------|
+| `Rezka` | HDRezka — largest Russian VOD | Popular, recommended |
+| `Filmix` | Filmix | Requires token |
+| `Kodik` | Kodik CDN aggregator | Requires token |
+| `Alloha` | Alloha CDN | Good quality |
+| `HDVB` | HDVB CDN | |
+| `Collaps` | Collaps CDN | |
+| `Zetflix` | Zetflix CDN | |
+| `ZetflixDB` | Zetflix database | |
+| `Vibix` | Vibix CDN | |
+| `Kinoflix` | Kinoflix | |
+| `Kinogo` | Kinogo | |
+| `Kinobase` | Kinobase | |
+| `Kinotochka` | Kinotochka | |
+| `VoKino` | VoKino | |
+| `KinoPub` | KinoPub | Requires subscription |
+| `IptvOnline` | IPTV Online | |
+| `GetsTV` | Gets.tv | |
+| `SakhTV` | SakhTV | |
+| `iRemux` | iRemux | |
+| `CDNvideohub` | CDNvideohub | |
+| `Videoseed` | Videoseed | |
+| `RutubeMovie` | Rutube Movies | |
+| `Mirage` | Mirage CDN | |
+| `Phantom` | Phantom CDN | |
+| `PizdatoeHD` | PizdatoeHD | |
+| `Spectre` | Spectre CDN | |
+| `FlixCDN` | FlixCDN | |
+| `VeoVeo` | VeoVeo | |
+| `VkMovie` | VK Video | |
+| `LeProduction` | LeProduction | |
+| `VideoDB` | VideoDB | |
+| `FanCDN` | FanCDN | |
+
+---
+
+### 🇺🇦 Ukrainian Sources
+
+| Module | Description |
+|--------|-------------|
+| `UaKino` | UaKino |
+| `HdvbUA` | HDVB Ukraine |
+| `Eneyida` | Eneyida |
+| `KinoUkr` | KinoUkr |
+| `Tortuga` | Tortuga |
+| `Ashdi` | Ashdi |
+| `UAFilm` | UAFilm |
+| `Geosaitebi` | Geosaitebi (Georgia) |
+| `AsiaGe` | AsiaGe (Georgia) |
+
+---
+
+### 🌍 Foreign (English-language)
+
+| Module | Description |
+|--------|-------------|
+| `VidSrc` | VidSrc |
+| `AutoEmbed` | AutoEmbed |
+| `PlayEmbed` | PlayEmbed |
+| `SmashyStream` | SmashyStream |
+| `TwoEmbed` | TwoEmbed |
+| `RgShows` | RgShows |
+| `MovPI` | MoviesPI |
+| `VidLink` | VidLink |
+| `HydraFlix` | HydraFlix |
+| `Videasy` | Videasy |
+| `BamBoo` | BamBoo |
+
+---
+
+### 🎌 Anime
+
+| Module | Description |
+|--------|-------------|
+| `AniLibria` | AniLibria |
+| `AnimeGo` | AnimeGo |
+| `AnimeLib` | AnimeLib |
+| `AniMedia` | AniMedia |
+| `Mikai` | Mikai |
+| `Dreamerscast` | Dreamerscast |
+| `AnimeON` | AnimeON |
+| `Animebesst` | Animebesst |
+| `AniLiberty` | AniLiberty |
+| `Animevost` | Animevost |
+| `MoonAnime` | MoonAnime |
+
+---
+
+### 🧲 Torrent
+
+| Module | Description | Notes |
+|--------|-------------|-------|
+| `TorrServer` | TorrServer integration | Enable via toggle in add-on config |
+| `JacRed` | JacRed torrent indexer aggregator | |
+| `PidTor` | PidTor torrent streaming | |
+
+---
+
+### 🔞 Adult (18+)
+
+| Module | Description |
+|--------|-------------|
+| `SISI` | SISI adult aggregator |
+| `PornHub` | PornHub |
+| `HQporner` | HQporner |
+| `Xvideos` | Xvideos |
+| `Xhamster` | Xhamster |
+| `Xnxx` | Xnxx |
+| `Chaturbate` | Chaturbate |
+| `BongaCams` | BongaCams |
+| `Runetki` | Runetki |
+| `Eporner` | Eporner |
+| `Porntrex` | Porntrex |
+| `Spankbang` | Spankbang |
+| `Ebalovo` | Ebalovo |
+| `Tizam` | Tizam |
+
+---
 
 ## AdminPanel
 
-After starting the add-on, open AdminPanel at:
+Open AdminPanel at:
 ```
 http://YOUR_HA_IP:9118/adminpanel/auth
 ```
-Use the `root_password` from Configuration to log in.
+Password: `root_password` from Configuration.
 
 ## Connecting to Lampa
 
