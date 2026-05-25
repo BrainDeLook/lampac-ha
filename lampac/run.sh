@@ -4,7 +4,6 @@ CONFIG_PATH=/data/options.json
 ROOT_PASSWORD=$(jq --raw-output '.root_password' $CONFIG_PATH)
 ENABLE_ADMIN=$(jq --raw-output '.enable_admin_panel' $CONFIG_PATH)
 ENABLE_TORRSERVER=$(jq --raw-output '.enable_torrserver' $CONFIG_PATH)
-CUSTOM_SKIP=$(jq --raw-output '.custom_skip_modules' $CONFIG_PATH)
 
 echo "Starting Lampac NextGen..."
 
@@ -32,9 +31,11 @@ else
     OPENSTAT_ENABLE="false"
 fi
 
-# Дополнительные модули из custom_skip_modules
-if [ -n "$CUSTOM_SKIP" ] && [ "$CUSTOM_SKIP" != "null" ] && [ "$CUSTOM_SKIP" != "" ]; then
-    SKIP_MODULES="$SKIP_MODULES,$CUSTOM_SKIP"
+# Дополнительные модули из списка extra_skip_modules
+EXTRA=$(jq -r '.extra_skip_modules[]? | "\"" + . + "\""' $CONFIG_PATH | paste -sd ',' -)
+if [ -n "$EXTRA" ]; then
+    SKIP_MODULES="$SKIP_MODULES,$EXTRA"
+    echo "Extra skip modules: $EXTRA"
 fi
 
 if [ ! -f /lampac/init.conf ]; then

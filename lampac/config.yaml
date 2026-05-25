@@ -1,6 +1,6 @@
 name: "Lampac NextGen"
 description: "Self-hosted backend for Lampa."
-version: "1.29.10-2"
+version: "1.29.10-3"
 slug: "lampac"
 url: https://github.com/BrainDeLook/lampac-ha
 arch:
@@ -15,13 +15,14 @@ options:
   admin_panel_url: "http://YOUR_HA_IP:9118/adminpanel/auth"
   enable_admin_panel: true
   enable_torrserver: false
-  custom_skip_modules: ""
+  extra_skip_modules: []
 schema:
   root_password: str
   admin_panel_url: str
   enable_admin_panel: bool
   enable_torrserver: bool
-  custom_skip_modules: str
+  extra_skip_modules:
+    - str
 ports:
   9118/tcp: 9118
 ports_description:
