@@ -44,6 +44,7 @@
 | `root_password` | Пароль для AdminPanel | `changeme` |
 | `admin_panel_url` | Ссылка на AdminPanel (замени YOUR_HA_IP) | `http://YOUR_HA_IP:9118/adminpanel/auth` |
 | `enable_admin_panel` | Включить модуль AdminPanel | `true` |
+| `enable_stats` | Включить Stats в AdminPanel | `true` |
 | `enable_russian_vod` | Русские VOD: Rezka, Filmix, Kodik, Alloha, HDVB и др. | `true` |
 | `enable_anime` | Аниме источники | `true` |
 | `enable_adult` | Контент 18+ | `false` |
