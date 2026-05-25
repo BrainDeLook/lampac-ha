@@ -44,6 +44,7 @@ Home Assistant Add-on for [Lampac NextGen](https://github.com/lampac-nextgen/lam
 | `root_password` | AdminPanel root password | `changeme` |
 | `admin_panel_url` | AdminPanel URL (replace YOUR_HA_IP) | `http://YOUR_HA_IP:9118/adminpanel/auth` |
 | `enable_admin_panel` | Enable AdminPanel module | `true` |
+| `enable_stats` | Enable Stats in AdminPanel | `true` |
 | `enable_russian_vod` | Russian VOD: Rezka, Filmix, Kodik, Alloha, HDVB, etc. | `true` |
 | `enable_anime` | Anime sources | `true` |
 | `enable_adult` | Adult content (18+) | `false` |
