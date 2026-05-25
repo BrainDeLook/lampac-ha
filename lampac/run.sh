@@ -3,6 +3,7 @@ CONFIG_PATH=/data/options.json
 
 ROOT_PASSWORD=$(jq --raw-output '.root_password' $CONFIG_PATH)
 ENABLE_ADMIN=$(jq --raw-output '.enable_admin_panel' $CONFIG_PATH)
+ENABLE_STATS=$(jq --raw-output '.enable_stats' $CONFIG_PATH)
 ENABLE_RUSSIAN_VOD=$(jq --raw-output '.enable_russian_vod' $CONFIG_PATH)
 ENABLE_ANIME=$(jq --raw-output '.enable_anime' $CONFIG_PATH)
 ENABLE_ADULT=$(jq --raw-output '.enable_adult' $CONFIG_PATH)
@@ -17,9 +18,10 @@ echo "Starting Lampac NextGen..."
 echo "${ROOT_PASSWORD}" > /lampac/passwd
 echo "Root password configured"
 
+# Базовые отключённые модули (WebLog теперь включён)
 SKIP_MODULES='"Catalog","DLNA","Tracks","Transcoding","CacheMedia","ProxyLimiter","ForkPlayerXML","MsxNative","TelegramAuth","TelegramAuthBot"'
 
-# Русские VOD (Kinoflix, Vibix, Collaps, Zetflix, Rezka, Filmix, Alloha, Kodik, HDVB и др.)
+# Русские VOD
 if [ "$ENABLE_RUSSIAN_VOD" = "false" ]; then
     SKIP_MODULES="$SKIP_MODULES,\"Kinoflix\",\"Vibix\",\"Collaps\",\"Zetflix\",\"Kinobase\",\"Kinotochka\",\"PizdatoeHD\",\"Mirage\",\"Phantom\",\"CDNvideohub\",\"Videoseed\",\"RutubeMovie\",\"Spectre\",\"FlixCDN\",\"VeoVeo\",\"VkMovie\",\"Kinogo\",\"LeProduction\",\"VideoDB\",\"HDVB\",\"ZetflixDB\",\"FanCDN\",\"Kodik\",\"Alloha\",\"GetsTV\",\"SakhTV\",\"KinoPub\",\"IptvOnline\",\"Rezka\",\"iRemux\",\"VoKino\",\"Filmix\""
 fi
@@ -51,7 +53,7 @@ fi
 
 # Зарубежные
 if [ "$ENABLE_FOREIGN" = "false" ]; then
-    SKIP_MODULES="$SKIP_MODULES,\"PlayEmbed\",\"SmashyStream\",\"TwoEmbed\",\"RgShows\",\"VidSrc\",\"AutoEmbed\",\"MovPI\",\"VidLink\",\"HydraFlix\""
+    SKIP_MODULES="$SKIP_MODULES,\"PlayEmbed\",\"SmashyStream\",\"TwoEmbed\",\"RgShows\",\"VidSrc\",\"AutoEmbed\",\"MovPI\",\"VidLink\",\"HydraFlix\",\"Geosaitebi\",\"BamBoo\",\"AsiaGe\""
 fi
 
 # Украинские
@@ -70,11 +72,21 @@ else
     SKIP_MODULES="$SKIP_MODULES,\"AdminPanel\""
 fi
 
+# Stats (openstat)
+OPENSTAT_ENABLE="false"
+if [ "$ENABLE_STATS" = "true" ]; then
+    OPENSTAT_ENABLE="true"
+fi
+
+# Создаём init.conf если его нет
 if [ ! -f /lampac/init.conf ]; then
     cat > /lampac/init.conf << CONF
 {
   "listen": {
     "port": 19118
+  },
+  "openstat": {
+    "enable": ${OPENSTAT_ENABLE}
   },
   "BaseModule": {
     "SkipModules": [${SKIP_MODULES}]

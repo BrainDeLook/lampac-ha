@@ -1,6 +1,6 @@
 name: "Lampac NextGen"
 description: "Self-hosted backend for Lampa."
-version: "1.29.9"
+version: "1.29.9-1"
 slug: "lampac"
 url: https://github.com/BrainDeLook/lampac-ha
 arch:
@@ -14,6 +14,7 @@ options:
   root_password: "changeme"
   admin_panel_url: "http://YOUR_HA_IP:9118/adminpanel/auth"
   enable_admin_panel: true
+  enable_stats: false
   enable_torrserver: true
   enable_jacred: true
   enable_russian_vod: true
@@ -26,6 +27,7 @@ schema:
   root_password: str
   admin_panel_url: str
   enable_admin_panel: bool
+  enable_stats: bool
   enable_torrserver: bool
   enable_jacred: bool
   enable_russian_vod: bool
