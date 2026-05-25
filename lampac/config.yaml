@@ -1,6 +1,6 @@
 name: "Lampac NextGen"
 description: "Self-hosted backend for Lampa."
-version: "1.29.9-2"
+version: "1.29.10"
 slug: "lampac"
 url: https://github.com/BrainDeLook/lampac-ha
 arch:
