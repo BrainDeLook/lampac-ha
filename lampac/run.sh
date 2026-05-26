@@ -10,12 +10,16 @@ echo "Starting Lampac NextGen..."
 echo "${ROOT_PASSWORD}" > /lampac/passwd
 echo "Root password configured"
 
-# Базовые отключённые модули
-SKIP_MODULES='"Catalog","DLNA","Tracks","Transcoding","CacheMedia","ProxyLimiter","ForkPlayerXML","MsxNative","TelegramAuth","TelegramAuthBot","Kinoflix","Vibix","Collaps","Zetflix","Kinobase","Kinotochka","PizdatoeHD","Mirage","Phantom","CDNvideohub","Videoseed","RutubeMovie","Spectre","FlixCDN","VeoVeo","VkMovie","Kinogo","LeProduction","VideoDB","HDVB","ZetflixDB","FanCDN","Kodik","AnimeLib","Mikai","AniLibria","AnimeGo","Dreamerscast","AnimeON","AniMedia","Animebesst","AniLiberty","Animevost","MoonAnime","HQporner","Chaturbate","Runetki","PornHub","Tizam","Xnxx","Porntrex","Eporner","BongaCams","Xvideos","Xhamster","Spankbang","Ebalovo","SISI","PidTor","PlayEmbed","SmashyStream","TwoEmbed","RgShows","VidSrc","AutoEmbed","MovPI","VidLink","HydraFlix","Geosaitebi","BamBoo","AsiaGe","HdvbUA","UaKino","Eneyida","KinoUkr","Tortuga","Ashdi","UAFilm","Alloha","GetsTV","SakhTV","KinoPub","IptvOnline","Rezka","iRemux","VoKino","Filmix","JacRed","Videasy"'
+# Модули из мультиселекта (пользователь убирает те, что хочет включить)
+SKIP_MODULES=$(jq -r '.skip_modules[]? | "\"" + . + "\""' $CONFIG_PATH | paste -sd ',' -)
 
 # TorrServer
 if [ "$ENABLE_TORRSERVER" = "false" ]; then
-    SKIP_MODULES="$SKIP_MODULES,\"TorrServer\""
+    if [ -n "$SKIP_MODULES" ]; then
+        SKIP_MODULES="$SKIP_MODULES,\"TorrServer\""
+    else
+        SKIP_MODULES="\"TorrServer\""
+    fi
 fi
 
 # AdminPanel и Stats
@@ -27,15 +31,12 @@ if [ "$ENABLE_ADMIN" = "true" ]; then
     fi
     OPENSTAT_ENABLE="true"
 else
-    SKIP_MODULES="$SKIP_MODULES,\"AdminPanel\""
+    if [ -n "$SKIP_MODULES" ]; then
+        SKIP_MODULES="$SKIP_MODULES,\"AdminPanel\""
+    else
+        SKIP_MODULES="\"AdminPanel\""
+    fi
     OPENSTAT_ENABLE="false"
-fi
-
-# Дополнительные модули из списка extra_skip_modules
-EXTRA=$(jq -r '.extra_skip_modules[]? | "\"" + . + "\""' $CONFIG_PATH | paste -sd ',' -)
-if [ -n "$EXTRA" ]; then
-    SKIP_MODULES="$SKIP_MODULES,$EXTRA"
-    echo "Extra skip modules: $EXTRA"
 fi
 
 if [ ! -f /lampac/init.conf ]; then
