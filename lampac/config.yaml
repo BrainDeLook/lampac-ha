@@ -1,6 +1,6 @@
 name: "Lampac NextGen"
 description: "Self-hosted backend for Lampa."
-version: "1.29.12"
+version: "1.29.12-1"
 slug: "lampac"
 url: https://github.com/BrainDeLook/lampac-ha
 arch:
@@ -101,10 +101,4 @@ schema:
   enable_admin_panel: bool
   enable_torrserver: bool
   skip_modules:
-    - str
-ports:
-  9118/tcp: 9118
-ports_description:
-  9118/tcp: Lampac API + AdminPanel (/adminpanel/auth)
-map:
-  - data:rw
+    - "list(Rezka|Filmix|Kodik|Alloha|HDVB|Collaps|Zetflix|ZetflixDB|Vibix|Kinoflix|Kinogo|Kinobase|Kinotochka|VoKino|KinoPub|IptvOnline|GetsTV|SakhTV|iRemux|CDNvideohub|Videoseed|RutubeMovie|Mirage|Phantom|PizdatoeHD|Spectre|FlixCDN|VeoVeo|VkMovie|LeProduction|VideoDB|FanCDN|UaKino|HdvbUA|Eneyida|KinoUkr|Tortuga|Ashdi|UAFilm|Geosaitebi|AsiaGe|VidSrc|AutoEmbed|PlayEmbed|SmashyStream|TwoEmbed|RgShows|MovPI|VidLink|HydraFlix|Videasy|BamBoo|AniLibria|AnimeGo|AnimeLib|AniMedia|Mikai|Dreamerscast|AnimeON|Animebesst|AniLiberty|Animevost|MoonAnime|JacRed|PidTor|SISI|PornHub|HQporner|Xvideos|Xhamster|Xnxx|Chaturbate|BongaCams|Runetki|Eporner|Porntrex|Spankbang|Ebalovo|Tizam)"
