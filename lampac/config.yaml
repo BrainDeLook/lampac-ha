@@ -1,6 +1,6 @@
 name: "Lampac NextGen"
 description: "Self-hosted backend for Lampa."
-version: "1.29.12-1"
+version: "1.29.9"
 slug: "lampac"
 url: https://github.com/BrainDeLook/lampac-ha
 arch:
@@ -15,90 +15,96 @@ options:
   admin_panel_url: "http://YOUR_HA_IP:9118/adminpanel/auth"
   enable_admin_panel: true
   enable_torrserver: false
-  skip_modules:
-    - Rezka
-    - Filmix
-    - Kodik
-    - Alloha
-    - HDVB
+  extra_skip_modules:
+    - Kinoflix
+    - Vibix
     - Collaps
     - Zetflix
-    - ZetflixDB
-    - Vibix
-    - Kinoflix
-    - Kinogo
     - Kinobase
     - Kinotochka
-    - VoKino
-    - KinoPub
-    - IptvOnline
-    - GetsTV
-    - SakhTV
-    - iRemux
+    - PizdatoeHD
+    - Mirage
+    - Phantom
     - CDNvideohub
     - Videoseed
     - RutubeMovie
-    - Mirage
-    - Phantom
-    - PizdatoeHD
     - Spectre
     - FlixCDN
     - VeoVeo
     - VkMovie
+    - Kinogo
     - LeProduction
     - VideoDB
+    - HDVB
+    - ZetflixDB
     - FanCDN
-    - UaKino
+    - Kodik
+    - AnimeLib
+    - Mikai
+    - AniLibria
+    - AnimeGo
+    - Dreamerscast
+    - AnimeON
+    - AniMedia
+    - Animebesst
+    - AniLiberty
+    - Animevost
+    - MoonAnime
+    - HQporner
+    - Chaturbate
+    - Runetki
+    - PornHub
+    - Tizam
+    - Xnxx
+    - Porntrex
+    - Eporner
+    - BongaCams
+    - Xvideos
+    - Xhamster
+    - Spankbang
+    - Ebalovo
+    - SISI
+    - PidTor
+    - PlayEmbed
+    - SmashyStream
+    - TwoEmbed
+    - RgShows
+    - VidSrc
+    - AutoEmbed
+    - MovPI
+    - VidLink
+    - HydraFlix
+    - Geosaitebi
+    - BamBoo
+    - AsiaGe
     - HdvbUA
+    - UaKino
     - Eneyida
     - KinoUkr
     - Tortuga
     - Ashdi
     - UAFilm
-    - Geosaitebi
-    - AsiaGe
-    - VidSrc
-    - AutoEmbed
-    - PlayEmbed
-    - SmashyStream
-    - TwoEmbed
-    - RgShows
-    - MovPI
-    - VidLink
-    - HydraFlix
-    - Videasy
-    - BamBoo
-    - AniLibria
-    - AnimeGo
-    - AnimeLib
-    - AniMedia
-    - Mikai
-    - Dreamerscast
-    - AnimeON
-    - Animebesst
-    - AniLiberty
-    - Animevost
-    - MoonAnime
+    - Alloha
+    - GetsTV
+    - SakhTV
+    - KinoPub
+    - IptvOnline
+    - Rezka
+    - iRemux
+    - VoKino
+    - Filmix
     - JacRed
-    - PidTor
-    - SISI
-    - PornHub
-    - HQporner
-    - Xvideos
-    - Xhamster
-    - Xnxx
-    - Chaturbate
-    - BongaCams
-    - Runetki
-    - Eporner
-    - Porntrex
-    - Spankbang
-    - Ebalovo
-    - Tizam
+    - Videasy
 schema:
   root_password: str
   admin_panel_url: str
   enable_admin_panel: bool
   enable_torrserver: bool
-  skip_modules:
-    - "list(Rezka|Filmix|Kodik|Alloha|HDVB|Collaps|Zetflix|ZetflixDB|Vibix|Kinoflix|Kinogo|Kinobase|Kinotochka|VoKino|KinoPub|IptvOnline|GetsTV|SakhTV|iRemux|CDNvideohub|Videoseed|RutubeMovie|Mirage|Phantom|PizdatoeHD|Spectre|FlixCDN|VeoVeo|VkMovie|LeProduction|VideoDB|FanCDN|UaKino|HdvbUA|Eneyida|KinoUkr|Tortuga|Ashdi|UAFilm|Geosaitebi|AsiaGe|VidSrc|AutoEmbed|PlayEmbed|SmashyStream|TwoEmbed|RgShows|MovPI|VidLink|HydraFlix|Videasy|BamBoo|AniLibria|AnimeGo|AnimeLib|AniMedia|Mikai|Dreamerscast|AnimeON|Animebesst|AniLiberty|Animevost|MoonAnime|JacRed|PidTor|SISI|PornHub|HQporner|Xvideos|Xhamster|Xnxx|Chaturbate|BongaCams|Runetki|Eporner|Porntrex|Spankbang|Ebalovo|Tizam)"
+  extra_skip_modules:
+    - "list(Kinoflix|Vibix|Collaps|Zetflix|Kinobase|Kinotochka|PizdatoeHD|Mirage|Phantom|CDNvideohub|Videoseed|RutubeMovie|Spectre|FlixCDN|VeoVeo|VkMovie|Kinogo|LeProduction|VideoDB|HDVB|ZetflixDB|FanCDN|Kodik|AnimeLib|Mikai|AniLibria|AnimeGo|Dreamerscast|AnimeON|AniMedia|Animebesst|AniLiberty|Animevost|MoonAnime|HQporner|Chaturbate|Runetki|PornHub|Tizam|Xnxx|Porntrex|Eporner|BongaCams|Xvideos|Xhamster|Spankbang|Ebalovo|SISI|PidTor|PlayEmbed|SmashyStream|TwoEmbed|RgShows|VidSrc|AutoEmbed|MovPI|VidLink|HydraFlix|Geosaitebi|BamBoo|AsiaGe|HdvbUA|UaKino|Eneyida|KinoUkr|Tortuga|Ashdi|UAFilm|Alloha|GetsTV|SakhTV|KinoPub|IptvOnline|Rezka|iRemux|VoKino|Filmix|JacRed|Videasy)"
+ports:
+  9118/tcp: 9118
+ports_description:
+  9118/tcp: Lampac API + AdminPanel (/adminpanel/auth)
+map:
+  - data:rw
