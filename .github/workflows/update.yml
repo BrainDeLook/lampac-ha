@@ -34,7 +34,7 @@ jobs:
 
           sed -i "s/^version: .*/version: \"${NEW_VERSION}\"/" lampac/config.yaml
 
-          printf "# Changelog\n\n## %s (%s)\n\n- Update to latest version from Lampac NextGen (changelog: https://github.com/lampac-nextgen/lampac/releases/tag/s)\n\n" \
+          printf "# Changelog\n\n## %s (%s)\n\n- Update to latest version from Lampac NextGen (changelog: https://github.com/lampac-nextgen/lampac/releases/tag/&s)\n\n" \
             "$NEW_VERSION" "$DATE" "$NEW_VERSION" > /tmp/changelog_header.md
           tail -n +2 lampac/CHANGELOG.md >> /tmp/changelog_header.md
           mv /tmp/changelog_header.md lampac/CHANGELOG.md
