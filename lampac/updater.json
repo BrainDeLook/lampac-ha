@@ -1,0 +1,6 @@
+{
+  "upstream_repo": "lampac-nextgen/lampac",
+  "addon_path": "lampac",
+  "changelog_url": "https://github.com/lampac-nextgen/lampac/releases/tag/{version}",
+  "version_prefix": "v"
+}
