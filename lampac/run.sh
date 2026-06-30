@@ -10,8 +10,8 @@ echo "Starting Lampac NextGen..."
 echo "${ROOT_PASSWORD}" > /lampac/passwd
 echo "Root password configured"
 
-# Базовые отключённые модули
-SKIP_MODULES='"Catalog","DLNA","Tracks","Transcoding","CacheMedia","ProxyLimiter","ForkPlayerXML","MsxNative","TelegramAuth","TelegramAuthBot","Kinoflix","Vibix","Collaps","Zetflix","Kinobase","Kinotochka","PizdatoeHD","Mirage","Phantom","CDNvideohub","Videoseed","RutubeMovie","Spectre","FlixCDN","VeoVeo","VkMovie","Kinogo","LeProduction","VideoDB","HDVB","ZetflixDB","FanCDN","Kodik","AnimeLib","Mikai","AniLibria","AnimeGo","Dreamerscast","AnimeON","AniMedia","Animebesst","AniLiberty","Animevost","MoonAnime","HQporner","Chaturbate","Runetki","PornHub","Tizam","Xnxx","Porntrex","Eporner","BongaCams","Xvideos","Xhamster","Spankbang","Ebalovo","SISI","PidTor","PlayEmbed","SmashyStream","TwoEmbed","RgShows","VidSrc","AutoEmbed","MovPI","VidLink","HydraFlix","Geosaitebi","BamBoo","AsiaGe","HdvbUA","UaKino","Eneyida","KinoUkr","Tortuga","Ashdi","UAFilm","Alloha","GetsTV","SakhTV","KinoPub","IptvOnline","Rezka","iRemux","VoKino","Filmix","JacRed","Videasy"'
+# Системные модули — всегда отключены (не зависят от настроек пользователя)
+SKIP_MODULES='"Catalog","DLNA","Tracks","Transcoding","CacheMedia","ProxyLimiter","ForkPlayerXML","MsxNative","TelegramAuth","TelegramAuthBot","WebLog","GStreamer","Tg-notify.bot","LogUserRequest-Lite"'
 
 # TorrServer
 if [ "$ENABLE_TORRSERVER" = "false" ]; then
@@ -49,6 +49,17 @@ if [ ! -f /lampac/init.conf ]; then
   },
   "TorrServer": {
     "url": ""
+  },
+  "online": {
+    "name": "Lampac NextGen",
+    "spiderName": "Lampac NextGen",
+    "btn_priority_forced": true
+  },
+  "sisi": {
+    "NextHUB": true,
+    "history": {
+      "enable": false
+    }
   },
   "BaseModule": {
     "SkipModules": [${SKIP_MODULES}]

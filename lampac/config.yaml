@@ -60,6 +60,7 @@ options:
     - Eporner
     - BongaCams
     - Xvideos
+    - XvideosRED
     - Xhamster
     - Spankbang
     - Ebalovo
@@ -95,13 +96,17 @@ options:
     - Filmix
     - JacRed
     - Videasy
+    - Potok
+    - NextHUB
+    - Sync
+    - WatchTogether
 schema:
   root_password: str
   admin_panel_url: str
   enable_admin_panel: bool
   enable_torrserver: bool
   extra_skip_modules:
-    - "list(Kinoflix|Vibix|Collaps|Zetflix|Kinobase|Kinotochka|PizdatoeHD|Mirage|Phantom|CDNvideohub|Videoseed|RutubeMovie|Spectre|FlixCDN|VeoVeo|VkMovie|Kinogo|LeProduction|VideoDB|HDVB|ZetflixDB|FanCDN|Kodik|AnimeLib|Mikai|AniLibria|AnimeGo|Dreamerscast|AnimeON|AniMedia|Animebesst|AniLiberty|Animevost|MoonAnime|HQporner|Chaturbate|Runetki|PornHub|Tizam|Xnxx|Porntrex|Eporner|BongaCams|Xvideos|Xhamster|Spankbang|Ebalovo|SISI|PidTor|PlayEmbed|SmashyStream|TwoEmbed|RgShows|VidSrc|AutoEmbed|MovPI|VidLink|HydraFlix|Geosaitebi|BamBoo|AsiaGe|HdvbUA|UaKino|Eneyida|KinoUkr|Tortuga|Ashdi|UAFilm|Alloha|GetsTV|SakhTV|KinoPub|IptvOnline|Rezka|iRemux|VoKino|Filmix|JacRed|Videasy)"
+    - "list(Kinoflix|Vibix|Collaps|Zetflix|Kinobase|Kinotochka|PizdatoeHD|Mirage|Phantom|CDNvideohub|Videoseed|RutubeMovie|Spectre|FlixCDN|VeoVeo|VkMovie|Kinogo|LeProduction|VideoDB|HDVB|ZetflixDB|FanCDN|Kodik|AnimeLib|Mikai|AniLibria|AnimeGo|Dreamerscast|AnimeON|AniMedia|Animebesst|AniLiberty|Animevost|MoonAnime|HQporner|Chaturbate|Runetki|PornHub|Tizam|Xnxx|Porntrex|Eporner|BongaCams|Xvideos|XvideosRED|Xhamster|Spankbang|Ebalovo|SISI|PidTor|PlayEmbed|SmashyStream|TwoEmbed|RgShows|VidSrc|AutoEmbed|MovPI|VidLink|HydraFlix|Geosaitebi|BamBoo|AsiaGe|HdvbUA|UaKino|Eneyida|KinoUkr|Tortuga|Ashdi|UAFilm|Alloha|GetsTV|SakhTV|KinoPub|IptvOnline|Rezka|iRemux|VoKino|Filmix|JacRed|Videasy|Potok|NextHUB|Sync|WatchTogether)"
 ports:
   9118/tcp: 9118
 ports_description:
