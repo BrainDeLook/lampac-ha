@@ -11,7 +11,7 @@ echo "${ROOT_PASSWORD}" > /lampac/passwd
 echo "Root password configured"
 
 # Системные модули — всегда отключены (не зависят от настроек пользователя)
-SKIP_MODULES='"Catalog","DLNA","Tracks","Transcoding","CacheMedia","ProxyLimiter","ForkPlayerXML","MsxNative","TelegramAuth","TelegramAuthBot","WebLog","GStreamer","Tg-notify.bot","LogUserRequest-Lite"'
+SKIP_MODULES='"Catalog","DLNA","Tracks","Transcoding","CacheMedia","ProxyLimiter","ForkPlayerXML","MsxNative","TelegramAuth","TelegramAuthBot"'
 
 # TorrServer
 if [ "$ENABLE_TORRSERVER" = "false" ]; then
