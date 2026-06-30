@@ -44,18 +44,16 @@ Home Assistant Add-on for [Lampac NextGen](https://github.com/lampac-nextgen/lam
 | `admin_panel_url` | AdminPanel URL (replace YOUR_HA_IP) | `http://YOUR_HA_IP:9118/adminpanel/auth` |
 | `enable_admin_panel` | Enable AdminPanel + Statistics | `true` |
 | `enable_torrserver` | Enable TorrServer integration | `false` |
-| `custom_skip_modules` | Additional modules to disable (comma-separated) | `""` |
+| `extra_skip_modules` | List of modules to disable (remove items to enable them) | all VOD modules |
 
 ## How to Enable Modules
 
 By default **all VOD modules are disabled**. To enable them:
 
-1. Open AdminPanel at `http://YOUR_HA_IP:9118/adminpanel/auth`
-2. Go to `init.conf` editor
-3. Find the `BaseModule.SkipModules` array and **remove** the module names you want to enable
-4. Save and restart the add-on
-
-Or use the `custom_skip_modules` field to add **extra** modules to the disabled list.
+1. Go to **Settings → Add-ons → Lampac NextGen → Configuration**
+2. Find the `extra_skip_modules` list
+3. **Remove** the module names you want to enable
+4. Click **Save** and restart the add-on
 
 ---
 
@@ -65,13 +63,33 @@ Or use the `custom_skip_modules` field to add **extra** modules to the disabled 
 
 ---
 
-### 🔒 System Modules (do not disable)
+### 🔒 System Modules (always disabled, not configurable)
+
+These modules are disabled at the system level and cannot be toggled via `extra_skip_modules`.
+
+| Module | Purpose |
+|--------|---------|
+| `Catalog` | Catalog service |
+| `DLNA` | DLNA server |
+| `Tracks` | Subtitle/audio track service |
+| `Transcoding` | Video transcoding |
+| `CacheMedia` | Media caching |
+| `ProxyLimiter` | Proxy rate limiter |
+| `ForkPlayerXML` | ForkPlayer XML interface |
+| `MsxNative` | MSX native interface |
+| `TelegramAuth` | Telegram authentication |
+| `TelegramAuthBot` | Telegram auth bot |
+| `WebLog` | HTTP request logging |
+| `GStreamer` | GStreamer media pipeline |
+| `Tg-notify.bot` | Telegram notification bot |
+| `LogUserRequest-Lite` | Lightweight request logger |
+
+### ✅ Always-On Modules (do not add to skip list)
 
 | Module | Purpose |
 |--------|---------|
 | `Online` | Core routing engine for all VOD sources |
 | `SyncEvents` | Event synchronization between modules |
-| `Sync` | Config sync service |
 | `Storage` | Data storage service |
 | `TimeCode` | Playback position saving |
 | `CorsMedia` | CORS proxy for media streams |
@@ -79,9 +97,7 @@ Or use the `custom_skip_modules` field to add **extra** modules to the disabled 
 | `Corseu` | EU CORS proxy |
 | `TmdbProxy` | TMDB API proxy (posters, metadata) |
 | `Kit` | Core toolkit |
-| `NextHUB` | Lampa plugin hub |
 | `LampaWeb` | Lampa web UI |
-| `WebLog` | Request logging (needed for AdminPanel) |
 
 ---
 
@@ -123,6 +139,7 @@ To enable — remove the module name from `SkipModules` in `init.conf`.
 | `LeProduction` | LeProduction | |
 | `VideoDB` | VideoDB | |
 | `FanCDN` | FanCDN | |
+| `Potok` | Potok.rip | |
 
 ---
 
@@ -178,6 +195,16 @@ To enable — remove the module name from `SkipModules` in `init.conf`.
 
 ---
 
+### 🤝 Social / Features
+
+| Module | Description |
+|--------|-------------|
+| `NextHUB` | Lampa plugin hub |
+| `Sync` | Config sync between devices |
+| `WatchTogether` | Co-watching sessions |
+
+---
+
 ### 🧲 Torrent
 
 | Module | Description | Notes |
@@ -196,6 +223,7 @@ To enable — remove the module name from `SkipModules` in `init.conf`.
 | `PornHub` | PornHub |
 | `HQporner` | HQporner |
 | `Xvideos` | Xvideos |
+| `XvideosRED` | Xvideos RED |
 | `Xhamster` | Xhamster |
 | `Xnxx` | Xnxx |
 | `Chaturbate` | Chaturbate |
