@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.43.0 (2026-08-03)
+
+- Update to upstream version (changelog: https://github.com/lampac-nextgen/lampac/releases/tag/1.43.0)
+
+
 ## 1.42.7 (2026-07-27)
 
 - Update to upstream version (changelog: https://github.com/lampac-nextgen/lampac/releases/tag/1.42.7)
