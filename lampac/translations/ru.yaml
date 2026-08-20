@@ -1,0 +1,15 @@
+configuration:
+  root_password:
+    name: Пароль AdminPanel
+    description: Пароль учётной записи root в Lampac. Обязательно смените стандартный пароль перед публикацией сервиса за пределами локальной сети.
+  enable_admin_panel:
+    name: Включить AdminPanel и статистику
+    description: Включает панель администрирования Lampac и статистику OpenStat.
+  enable_torrserver:
+    name: Включить TorrServer
+    description: Загружает встроенный модуль интеграции TorrServer. По умолчанию он выключен.
+  extra_skip_modules:
+    name: Отключённые модули
+    description: Выбранные здесь модули не загружаются. Все необязательные провайдеры и все модули, появившиеся после Lampac 1.37.7, по умолчанию выключены.
+network:
+  9118/tcp: API Lampac, веб-интерфейс Lampa и AdminPanel

@@ -3,9 +3,9 @@
 [🇷🇺 Русская версия](https://github.com/BrainDeLook/lampac-ha/blob/main/README_RU.md)
 
 [![GitHub Release](https://img.shields.io/github/release/BrainDeLook/lampac-ha.svg?style=for-the-badge)](https://github.com/BrainDeLook/lampac-ha/releases)
-[![License](https://img.shields.io/github/license/BrainDeLook/lampac-ha.svg?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/github/license/BrainDeLook/lampac-ha.svg?style=for-the-badge)](../LICENSE)
 
-![Lampac NextGen Logo](lampac/logo.png)
+![Lampac NextGen Logo](logo.png)
 
 Home Assistant Add-on for [Lampac NextGen](https://github.com/lampac-nextgen/lampac) — a self-hosted backend that aggregates streaming links from 60+ VOD providers for use with the [Lampa](https://lampa.mx) player.
 
@@ -41,21 +41,19 @@ Home Assistant Add-on for [Lampac NextGen](https://github.com/lampac-nextgen/lam
 | Option | Description | Default |
 |--------|-------------|---------|
 | `root_password` | AdminPanel root password | `changeme` |
-| `admin_panel_url` | AdminPanel URL (replace YOUR_HA_IP) | `http://YOUR_HA_IP:9118/adminpanel/auth` |
 | `enable_admin_panel` | Enable AdminPanel + Statistics | `true` |
 | `enable_torrserver` | Enable TorrServer integration | `false` |
-| `custom_skip_modules` | Additional modules to disable (comma-separated) | `""` |
+| `extra_skip_modules` | Multi-select list of disabled optional modules | all optional modules |
 
 ## How to Enable Modules
 
-By default **all VOD modules are disabled**. To enable them:
+By default **all optional modules are disabled**. To enable one:
 
-1. Open AdminPanel at `http://YOUR_HA_IP:9118/adminpanel/auth`
-2. Go to `init.conf` editor
-3. Find the `BaseModule.SkipModules` array and **remove** the module names you want to enable
-4. Save and restart the add-on
+1. Open **Settings → Add-ons → Lampac NextGen → Configuration**.
+2. In `extra_skip_modules` (**Disabled modules**), remove the module you want to enable.
+3. Save and restart the add-on.
 
-Or use the `custom_skip_modules` field to add **extra** modules to the disabled list.
+The add-on synchronizes both `BaseModule.SkipModules` and upstream module manifests. This is required for `Music`, `Telemetry`, and `DatabaseEditor`, whose upstream manifests are disabled by default.
 
 ---
 
@@ -65,13 +63,12 @@ Or use the `custom_skip_modules` field to add **extra** modules to the disabled 
 
 ---
 
-### 🔒 System Modules (do not disable)
+### 🔒 Required core modules (always enabled)
 
 | Module | Purpose |
 |--------|---------|
 | `Online` | Core routing engine for all VOD sources |
 | `SyncEvents` | Event synchronization between modules |
-| `Sync` | Config sync service |
 | `Storage` | Data storage service |
 | `TimeCode` | Playback position saving |
 | `CorsMedia` | CORS proxy for media streams |
@@ -79,9 +76,28 @@ Or use the `custom_skip_modules` field to add **extra** modules to the disabled 
 | `Corseu` | EU CORS proxy |
 | `TmdbProxy` | TMDB API proxy (posters, metadata) |
 | `Kit` | Core toolkit |
-| `NextHUB` | Lampa plugin hub |
 | `LampaWeb` | Lampa web UI |
-| `WebLog` | Request logging (needed for AdminPanel) |
+
+### ⛔ System modules (always disabled)
+
+`Catalog`, `DLNA`, `Tracks`, `Transcoding`, `CacheMedia`, `ProxyLimiter`, `ForkPlayerXML`, `MsxNative`, `TelegramAuth`, and `TelegramAuthBot` are kept off to provide a small Home Assistant installation.
+
+### 🧩 Optional feature modules
+
+| Module | Description | Added upstream |
+|--------|-------------|----------------|
+| `Telemetry` | Local telemetry dashboard | 1.39.0 |
+| `Music` | Music discovery and playback | 1.42.0 |
+| `DatabaseEditor` | Browser-based SQLite editor | 1.42.6 |
+| `NextHUB` | Lampa plugin hub | existing |
+| `Sync` | Configuration synchronization | existing |
+| `WatchTogether` | Synchronized viewing rooms | existing |
+| `WebLog` | HTTP request log | existing |
+| `GStreamer` | Media pipeline | existing |
+| `Tg-notify.bot` | Telegram notification bot | existing |
+| `LogUserRequest-Lite` | Lightweight request logger | existing |
+
+Together with `AiLiberty` below, the three versioned entries are every new module introduced upstream between `1.37.7` and `1.47.2`. All are disabled by default.
 
 ---
 
@@ -167,6 +183,7 @@ To enable — remove the module name from `SkipModules` in `init.conf`.
 | `AniLibria` | AniLibria |
 | `AnimeGo` | AnimeGo |
 | `AnimeLib` | AnimeLib |
+| `AiLiberty` | AiLiberty (added in 1.38.0) |
 | `AniMedia` | AniMedia |
 | `Mikai` | Mikai |
 | `Dreamerscast` | Dreamerscast |

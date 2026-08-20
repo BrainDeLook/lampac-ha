@@ -41,19 +41,20 @@
 | Параметр | Описание | По умолчанию |
 |----------|----------|--------------|
 | `root_password` | Пароль для AdminPanel | `changeme` |
-| `admin_panel_url` | Ссылка на AdminPanel (замени YOUR_HA_IP) | `http://YOUR_HA_IP:9118/adminpanel/auth` |
 | `enable_admin_panel` | Включить AdminPanel + Статистику | `true` |
 | `enable_torrserver` | Включить интеграцию с TorrServer | `false` |
-| `extra_skip_modules` | Список модулей для отключения (убери нужные чтобы включить) | все VOD модули |
+| `extra_skip_modules` | Мультиселектор отключённых необязательных модулей | все необязательные модули |
 
 ## Как включить модули
 
-По умолчанию **все VOD модули отключены**. Чтобы включить нужные:
+По умолчанию **все необязательные модули отключены**. Чтобы включить нужные:
 
 1. Перейди в **Настройки → Дополнения → Lampac NextGen → Конфигурация**
 2. Найди список `extra_skip_modules`
 3. **Удали** названия модулей которые хочешь включить
 4. Нажми **Сохранить** и перезапусти дополнение
+
+Дополнение синхронизирует и `BaseModule.SkipModules`, и upstream-манифесты. Без этого `Music`, `Telemetry` и `DatabaseEditor`, у которых `manifest.enable=false`, невозможно было бы реально включить из панели HA.
 
 ---
 
@@ -79,10 +80,6 @@
 | `MsxNative` | Нативный интерфейс MSX |
 | `TelegramAuth` | Авторизация через Telegram |
 | `TelegramAuthBot` | Бот авторизации Telegram |
-| `WebLog` | Логирование HTTP запросов |
-| `GStreamer` | Медиапайплайн GStreamer |
-| `Tg-notify.bot` | Бот уведомлений Telegram |
-| `LogUserRequest-Lite` | Лёгкий логгер запросов |
 
 ### ✅ Всегда активные модули (не добавлять в список отключения)
 
@@ -184,6 +181,7 @@
 | `AniLibria` | AniLibria |
 | `AnimeGo` | AnimeGo |
 | `AnimeLib` | AnimeLib |
+| `AiLiberty` | AiLiberty (добавлен в 1.38.0) |
 | `AniMedia` | AniMedia |
 | `Mikai` | Mikai |
 | `Dreamerscast` | Dreamerscast |
@@ -202,6 +200,15 @@
 | `NextHUB` | Хаб плагинов Lampa |
 | `Sync` | Синхронизация конфига между устройствами |
 | `WatchTogether` | Сеансы совместного просмотра |
+| `WebLog` | Логирование HTTP-запросов |
+| `GStreamer` | Медиапайплайн GStreamer |
+| `Tg-notify.bot` | Бот уведомлений Telegram |
+| `LogUserRequest-Lite` | Лёгкий логгер запросов |
+| `Telemetry` | Локальная панель телеметрии (добавлен в 1.39.0) |
+| `Music` | Поиск и воспроизведение музыки (добавлен в 1.42.0) |
+| `DatabaseEditor` | Веб-редактор баз SQLite (добавлен в 1.42.6) |
+
+`AiLiberty`, `Telemetry`, `Music` и `DatabaseEditor` — все новые модули оригинального Lampac NextGen между версиями `1.37.7` и `1.47.2`. По умолчанию все четыре выключены.
 
 ---
 

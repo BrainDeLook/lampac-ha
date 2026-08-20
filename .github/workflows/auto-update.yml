@@ -34,13 +34,14 @@ jobs:
               URL=$(echo "$CHANGELOG_URL" | sed "s/{version}/$LATEST/g")
 
               sed -i "s/^version: .*/version: \"${LATEST}\"/" "${ADDON_PATH}/config.yaml"
+              sed -i "s/^ARG LAMPAC_VERSION=.*/ARG LAMPAC_VERSION=${LATEST}/" "${ADDON_PATH}/Dockerfile"
 
               printf "# Changelog\n\n## %s (%s)\n\n- Update to upstream version (changelog: %s)\n\n" \
                 "$LATEST" "$DATE" "$URL" > /tmp/changelog_header.md
               tail -n +2 "${ADDON_PATH}/CHANGELOG.md" >> /tmp/changelog_header.md
               mv /tmp/changelog_header.md "${ADDON_PATH}/CHANGELOG.md"
 
-              git add "${ADDON_PATH}/config.yaml" "${ADDON_PATH}/CHANGELOG.md"
+              git add "${ADDON_PATH}/config.yaml" "${ADDON_PATH}/Dockerfile" "${ADDON_PATH}/CHANGELOG.md"
               git commit -m "chore: update ${ADDON_PATH} to v${LATEST}"
               CHANGED=1
               echo "Updated $ADDON_PATH to $LATEST"

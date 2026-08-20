@@ -41,19 +41,20 @@ Home Assistant Add-on for [Lampac NextGen](https://github.com/lampac-nextgen/lam
 | Option | Description | Default |
 |--------|-------------|---------|
 | `root_password` | AdminPanel root password | `changeme` |
-| `admin_panel_url` | AdminPanel URL (replace YOUR_HA_IP) | `http://YOUR_HA_IP:9118/adminpanel/auth` |
 | `enable_admin_panel` | Enable AdminPanel + Statistics | `true` |
 | `enable_torrserver` | Enable TorrServer integration | `false` |
-| `extra_skip_modules` | List of modules to disable (remove items to enable them) | all VOD modules |
+| `extra_skip_modules` | Multi-select list of disabled optional modules | all optional modules |
 
 ## How to Enable Modules
 
-By default **all VOD modules are disabled**. To enable them:
+By default **all optional modules are disabled**. To enable one:
 
 1. Go to **Settings → Add-ons → Lampac NextGen → Configuration**
 2. Find the `extra_skip_modules` list
 3. **Remove** the module names you want to enable
 4. Click **Save** and restart the add-on
+
+The add-on synchronizes both `BaseModule.SkipModules` and upstream module manifests. This is required for `Music`, `Telemetry`, and `DatabaseEditor`, whose upstream manifests are disabled by default.
 
 ---
 
@@ -79,10 +80,6 @@ These modules are disabled at the system level and cannot be toggled via `extra_
 | `MsxNative` | MSX native interface |
 | `TelegramAuth` | Telegram authentication |
 | `TelegramAuthBot` | Telegram auth bot |
-| `WebLog` | HTTP request logging |
-| `GStreamer` | GStreamer media pipeline |
-| `Tg-notify.bot` | Telegram notification bot |
-| `LogUserRequest-Lite` | Lightweight request logger |
 
 ### ✅ Always-On Modules (do not add to skip list)
 
@@ -184,6 +181,7 @@ To enable — remove the module name from `SkipModules` in `init.conf`.
 | `AniLibria` | AniLibria |
 | `AnimeGo` | AnimeGo |
 | `AnimeLib` | AnimeLib |
+| `AiLiberty` | AiLiberty (added in 1.38.0) |
 | `AniMedia` | AniMedia |
 | `Mikai` | Mikai |
 | `Dreamerscast` | Dreamerscast |
@@ -202,6 +200,15 @@ To enable — remove the module name from `SkipModules` in `init.conf`.
 | `NextHUB` | Lampa plugin hub |
 | `Sync` | Config sync between devices |
 | `WatchTogether` | Co-watching sessions |
+| `WebLog` | HTTP request logging |
+| `GStreamer` | GStreamer media pipeline |
+| `Tg-notify.bot` | Telegram notification bot |
+| `LogUserRequest-Lite` | Lightweight request logger |
+| `Telemetry` | Local telemetry dashboard (added in 1.39.0) |
+| `Music` | Music discovery and playback (added in 1.42.0) |
+| `DatabaseEditor` | Browser-based SQLite editor (added in 1.42.6) |
+
+`AiLiberty`, `Telemetry`, `Music`, and `DatabaseEditor` are every module introduced upstream between `1.37.7` and `1.47.2`; all four are disabled by default.
 
 ---
 

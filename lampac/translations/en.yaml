@@ -1,0 +1,15 @@
+configuration:
+  root_password:
+    name: AdminPanel password
+    description: Password for the Lampac root account. Change the default before exposing the service outside your local network.
+  enable_admin_panel:
+    name: Enable AdminPanel and statistics
+    description: Enables the Lampac administration panel and OpenStat statistics endpoint.
+  enable_torrserver:
+    name: Enable TorrServer
+    description: Loads the bundled TorrServer integration module. It remains disabled by default.
+  extra_skip_modules:
+    name: Disabled modules
+    description: Modules selected here are not loaded. All optional providers and all modules introduced after Lampac 1.37.7 are disabled by default.
+network:
+  9118/tcp: Lampac API, Lampa web interface, and AdminPanel

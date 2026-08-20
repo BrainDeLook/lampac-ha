@@ -1,6 +1,6 @@
 name: "Lampac NextGen"
 description: "Self-hosted backend for Lampa."
-version: "1.46.0"
+version: "1.47.2"
 slug: "lampac"
 url: https://github.com/BrainDeLook/lampac-ha
 arch:
@@ -12,7 +12,6 @@ panel_icon: mdi:television-play
 panel_title: "Lampac"
 options:
   root_password: "changeme"
-  admin_panel_url: "http://YOUR_HA_IP:9118/adminpanel/auth"
   enable_admin_panel: true
   enable_torrserver: false
   extra_skip_modules:
@@ -40,6 +39,7 @@ options:
     - FanCDN
     - Kodik
     - AnimeLib
+    - AiLiberty
     - Mikai
     - AniLibria
     - AnimeGo
@@ -104,13 +104,15 @@ options:
     - GStreamer
     - Tg-notify.bot
     - LogUserRequest-Lite
+    - DatabaseEditor
+    - Music
+    - Telemetry
 schema:
   root_password: str
-  admin_panel_url: str
   enable_admin_panel: bool
   enable_torrserver: bool
   extra_skip_modules:
-    - "list(Kinoflix|Vibix|Collaps|Zetflix|Kinobase|Kinotochka|PizdatoeHD|Mirage|Phantom|CDNvideohub|Videoseed|RutubeMovie|Spectre|FlixCDN|VeoVeo|VkMovie|Kinogo|LeProduction|VideoDB|HDVB|ZetflixDB|FanCDN|Kodik|AnimeLib|Mikai|AniLibria|AnimeGo|Dreamerscast|AnimeON|AniMedia|Animebesst|AniLiberty|Animevost|MoonAnime|HQporner|Chaturbate|Runetki|PornHub|Tizam|Xnxx|Porntrex|Eporner|BongaCams|Xvideos|XvideosRED|Xhamster|Spankbang|Ebalovo|SISI|PidTor|PlayEmbed|SmashyStream|TwoEmbed|RgShows|VidSrc|AutoEmbed|MovPI|VidLink|HydraFlix|Geosaitebi|BamBoo|AsiaGe|HdvbUA|UaKino|Eneyida|KinoUkr|Tortuga|Ashdi|UAFilm|Alloha|GetsTV|SakhTV|KinoPub|IptvOnline|Rezka|iRemux|VoKino|Filmix|JacRed|Videasy|Potok|NextHUB|Sync|WatchTogether|WebLog|GStreamer|Tg-notify.bot|LogUserRequest-Lite)"
+    - "list(Kinoflix|Vibix|Collaps|Zetflix|Kinobase|Kinotochka|PizdatoeHD|Mirage|Phantom|CDNvideohub|Videoseed|RutubeMovie|Spectre|FlixCDN|VeoVeo|VkMovie|Kinogo|LeProduction|VideoDB|HDVB|ZetflixDB|FanCDN|Kodik|AnimeLib|AiLiberty|Mikai|AniLibria|AnimeGo|Dreamerscast|AnimeON|AniMedia|Animebesst|AniLiberty|Animevost|MoonAnime|HQporner|Chaturbate|Runetki|PornHub|Tizam|Xnxx|Porntrex|Eporner|BongaCams|Xvideos|XvideosRED|Xhamster|Spankbang|Ebalovo|SISI|PidTor|PlayEmbed|SmashyStream|TwoEmbed|RgShows|VidSrc|AutoEmbed|MovPI|VidLink|HydraFlix|Geosaitebi|BamBoo|AsiaGe|HdvbUA|UaKino|Eneyida|KinoUkr|Tortuga|Ashdi|UAFilm|Alloha|GetsTV|SakhTV|KinoPub|IptvOnline|Rezka|iRemux|VoKino|Filmix|JacRed|Videasy|Potok|NextHUB|Sync|WatchTogether|WebLog|GStreamer|Tg-notify.bot|LogUserRequest-Lite|DatabaseEditor|Music|Telemetry)"
 ports:
   9118/tcp: 9118
 ports_description:

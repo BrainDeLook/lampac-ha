@@ -1,4 +1,5 @@
-FROM ghcr.io/lampac-nextgen/lampac:latest
+ARG LAMPAC_VERSION=1.47.2
+FROM ghcr.io/lampac-nextgen/lampac:${LAMPAC_VERSION}
 
 USER root
 
@@ -9,7 +10,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY nginx.conf /etc/nginx/sites-available/default
 COPY run.sh /run.sh
-COPY enable_adminpanel.sh /enable_adminpanel.sh
-RUN chmod +x /run.sh /enable_adminpanel.sh
+RUN chmod +x /run.sh
 
 ENTRYPOINT ["/run.sh"]
