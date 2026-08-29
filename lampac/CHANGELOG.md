@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.50.1 (2026-08-29)
+
+- Update to upstream version (changelog: https://github.com/lampac-nextgen/lampac/releases/tag/1.50.1)
+
+
 ## 1.47.2 (2026-08-20)
 
 - Update the runtime image to the pinned upstream version `1.47.2`.
