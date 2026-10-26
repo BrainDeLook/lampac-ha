@@ -1,4 +1,4 @@
-ARG LAMPAC_VERSION=1.83.3
+ARG LAMPAC_VERSION=1.86.0
 FROM ghcr.io/lampac-nextgen/lampac:${LAMPAC_VERSION}
 
 USER root
