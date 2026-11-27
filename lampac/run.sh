@@ -3,10 +3,9 @@ set -euo pipefail
 
 CONFIG_PATH="/data/options.json"
 LAMPAC_CONFIG="/data/init.conf"
-RUNTIME_CONFIG="/lampac/init.conf"
 
 ROOT_PASSWORD=$(jq -r '.root_password // "changeme"' "$CONFIG_PATH")
-ENABLE_ADMIN=$(jq -r '.enable_admin_panel // true' "$CONFIG_PATH")
+ENABLE_ADMIN=$(jq -r '.enable_admin_panel != false' "$CONFIG_PATH")
 ENABLE_TORRSERVER=$(jq -r '.enable_torrserver // false' "$CONFIG_PATH")
 
 echo "Starting Lampac NextGen..."
@@ -14,38 +13,21 @@ printf '%s\n' "$ROOT_PASSWORD" > /lampac/passwd
 chmod 600 /lampac/passwd
 echo "Root password configured"
 
-persist_directory() {
-    local name="$1"
-    local runtime_path="/lampac/$name"
-    local data_path="/data/$name"
-
-    mkdir -p "$data_path"
-    if [[ -d "$runtime_path" && ! -L "$runtime_path" ]]; then
-        cp -a "$runtime_path/." "$data_path/"
-        rm -rf "$runtime_path"
-    fi
-    ln -sfn "$data_path" "$runtime_path"
-}
-
-persist_file() {
-    local name="$1"
-    local runtime_path="/lampac/$name"
-    local data_path="/data/$name"
-
-    if [[ -f "$runtime_path" && ! -e "$data_path" ]]; then
-        cp -a "$runtime_path" "$data_path"
-    fi
-    rm -f "$runtime_path"
-    ln -sfn "$data_path" "$runtime_path"
-}
-
-# Lampac stores user state beside Core.dll. Redirect it to the add-on data
-# volume so databases, generated content, and account state survive upgrades.
+# Lampac writes user state relative to the working directory and replaces some
+# files atomically. Run in /data so those renames land on the persistent volume.
+# Keep application binaries in the image and expose resources used by relative paths.
 for directory in database cache logs; do
-    persist_directory "$directory"
+    mkdir -p "/data/$directory"
+    if [[ -d "/lampac/$directory" && ! -L "/lampac/$directory" ]]; then
+        cp -an "/lampac/$directory/." "/data/$directory/"
+        mv -T "/lampac/$directory" "/lampac/.image-$directory"
+    fi
+    ln -sfnT "/data/$directory" "/lampac/$directory"
 done
-for file in users.json current.conf; do
-    persist_file "$file"
+
+mkdir -p /lampac/mods
+for resource in .playwright appsettings.Production.json base.conf data isdocker mods module passwd plugins wwwroot; do
+    ln -sfnT "/lampac/$resource" "/data/$resource"
 done
 
 # Modules required for a small but functional Lampac/Lampa installation stay on.
@@ -64,8 +46,15 @@ SYSTEM_SKIP_MODULES=(
     TelegramAuthBot
 )
 
-mapfile -t EXTRA_SKIP_MODULES < <(jq -r '.extra_skip_modules[]?' "$CONFIG_PATH")
+mapfile -t EXTRA_SKIP_MODULES < <(jq -r '.extra_skip_modules[]? | if . == "Tg-notify.bot" then "SeriesNotify" else . end' "$CONFIG_PATH")
 SKIP_MODULES=("${SYSTEM_SKIP_MODULES[@]}" "${EXTRA_SKIP_MODULES[@]}")
+
+# These modules were absent or inactive before 1.91.1. An explicit allow list
+# keeps them off even when Supervisor supplies a saved, older skip list.
+mapfile -t OPT_IN_SKIP_MODULES < <(
+    jq -r '(["NinePeso", "QRAuth", "OidcAuth"] - (.extra_enable_modules // []))[]' "$CONFIG_PATH"
+)
+SKIP_MODULES+=("${OPT_IN_SKIP_MODULES[@]}")
 
 contains_module() {
     local wanted="$1"
@@ -89,7 +78,7 @@ set_manifest_state() {
 
     while IFS= read -r -d '' manifest; do
         found=true
-        temporary=$(mktemp)
+        temporary=$(mktemp "${manifest}.XXXXXX")
         jq --argjson enabled "$enabled" '.enable = $enabled' "$manifest" > "$temporary"
         mv "$temporary" "$manifest"
     done < <(find /lampac/module -type f -path "*/${module}/manifest.json" -print0)
@@ -104,7 +93,7 @@ set_manifest_state() {
 # These upstream modules ship with manifest.enable=false. Keep their manifest
 # state in sync with the HA disabled-module selector so removing a module from
 # the list actually enables it.
-MANIFEST_MANAGED_MODULES=(DatabaseEditor Music Telemetry)
+MANIFEST_MANAGED_MODULES=(DatabaseEditor Music Telemetry WatchTogether LogUserRequest-Lite XvideosRED SeriesNotify QRAuth OidcAuth)
 for module in "${MANIFEST_MANAGED_MODULES[@]}"; do
     if contains_module "$module"; then
         set_manifest_state "$module" false
@@ -156,22 +145,24 @@ if [[ ! -f "$LAMPAC_CONFIG" ]]; then
         }' > "$LAMPAC_CONFIG"
     echo "Created persistent init.conf"
 else
-    temporary=$(mktemp)
+    temporary=$(mktemp /data/.init.conf.XXXXXX)
     jq \
         --argjson openstat "$OPENSTAT_ENABLE" \
         --argjson skip_modules "$SKIP_MODULES_JSON" \
-        '.openstat.enable = $openstat | .BaseModule.SkipModules = $skip_modules' \
+        '
+            .openstat.enable = $openstat
+            | .BaseModule.SkipModules = $skip_modules
+            | if has("TelegramBot") then .SeriesNotify = (.SeriesNotify // .TelegramBot) | del(.TelegramBot) else . end
+        ' \
         "$LAMPAC_CONFIG" > "$temporary"
     mv "$temporary" "$LAMPAC_CONFIG"
     echo "Updated HA-managed settings in persistent init.conf"
 fi
-
-ln -sfn "$LAMPAC_CONFIG" "$RUNTIME_CONFIG"
 
 mkdir -p /run/nginx
 nginx
 echo "Nginx started"
 
 echo "Starting Lampac on internal port 19118..."
-cd /lampac
-exec /usr/share/dotnet/dotnet Core.dll
+cd /data
+exec /usr/share/dotnet/dotnet /lampac/Core.dll

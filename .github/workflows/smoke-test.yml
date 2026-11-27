@@ -1,0 +1,67 @@
+name: Lampac add-on smoke test
+
+on:
+  pull_request:
+    paths:
+      - 'lampac/**'
+      - '.github/workflows/smoke-test.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build add-on image
+        run: docker build -t lampac-test lampac
+      - name: Check installation and upgrade
+        shell: bash
+        run: |
+          data=$(mktemp -d)
+          trap 'docker rm -f lampac-smoke >/dev/null 2>&1 || true; sudo rm -rf "$data"' EXIT
+          start() {
+            docker run -d --name lampac-smoke -p 127.0.0.1:19119:9118 -v "$data:/data" lampac-test
+            if ! curl -fsS --retry 90 --retry-delay 2 --retry-all-errors 'http://127.0.0.1:19119/version?type=name'; then
+              docker logs lampac-smoke
+              return 1
+            fi
+          }
+
+          # A fresh Supervisor installation passes the configured defaults.
+          ruby -ryaml -rjson -e 'puts YAML.safe_load_file(ARGV[0])["options"].to_json' lampac/config.yaml > "$data/options.json"
+          start
+          jq -e '.openstat.enable and (.BaseModule.SkipModules | index("NinePeso"))' "$data/init.conf"
+          curl -fsS http://127.0.0.1:19119/api/capabilities | jq -e '.source.protocol == "luxo-source/1"'
+          test "$(docker exec lampac-smoke readlink -f /lampac/database)" = /data/database
+          docker rm -f lampac-smoke
+
+          # Reuse the volume with options and config from an old installation.
+          jq '
+            .root_password = "smoke-test"
+            | del(.extra_enable_modules)
+            | .extra_skip_modules -= ["AniDub", "Aladin", "Gencit", "Kinoteatrkg", "LordFilm", "Redheadsound", "RuDub", "WatchTogether", "NativeAppleTV", "SeriesNotify"]
+            | .extra_skip_modules += ["Tg-notify.bot"]
+          ' "$data/options.json" > "$data/options.tmp"
+          mv "$data/options.tmp" "$data/options.json"
+          printf '%s\n' '{"listen":{"port":19118}, "TelegramBot":{"enable":false,"data_dir":"database/tgnotify"}}' | sudo tee "$data/init.conf" >/dev/null
+          start
+          sudo jq -e '.SeriesNotify.data_dir == "database/tgnotify" and (has("TelegramBot") | not) and (.BaseModule.SkipModules | index("SeriesNotify"))' "$data/init.conf"
+          docker exec lampac-smoke jq -e '.enable' /lampac/module/WatchTogether/manifest.json
+          curl -fsS --cookie accspasswd=smoke-test -H 'Content-Type: application/json' -d '{"port":19118,"version":true}' http://127.0.0.1:19119/adminpanel/api/init/section/listen | jq -e '.ok'
+          curl -fsS --cookie accspasswd=smoke-test -H 'Content-Type: application/json' -d '[{"id":"smoke-user"}]' http://127.0.0.1:19119/adminpanel/api/users-json | jq -e '.ok'
+          docker rm -f lampac-smoke
+
+          jq '.enable_admin_panel = false | .extra_enable_modules = ["NinePeso"]' "$data/options.json" > "$data/options.tmp"
+          mv "$data/options.tmp" "$data/options.json"
+          start
+          sudo jq -e '.listen.version and (.openstat.enable | not) and (.BaseModule.SkipModules | index("NinePeso") == null)' "$data/init.conf"
+          sudo jq -e '.[0].id == "smoke-user"' "$data/users.json"
+          test "$(curl -sS -o /dev/null -w '%{http_code}' http://127.0.0.1:19119/adminpanel/auth)" = 404

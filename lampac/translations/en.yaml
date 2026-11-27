@@ -10,6 +10,9 @@ configuration:
     description: Loads the bundled TorrServer integration module. It remains disabled by default.
   extra_skip_modules:
     name: Disabled modules
-    description: Modules selected here are not loaded. All optional providers and all modules introduced after Lampac 1.37.7 are disabled by default.
+    description: Remove a module from this list to load it after restarting. For SeriesNotify, clear the old Tg-notify.bot entry as well if selected.
+  extra_enable_modules:
+    name: Additional modules
+    description: Select NinePeso, QRAuth, or OidcAuth to load it after restarting. Authentication modules require additional Lampac configuration.
 network:
   9118/tcp: Lampac API, Lampa web interface, and AdminPanel

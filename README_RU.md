@@ -43,18 +43,21 @@
 | `root_password` | Пароль для AdminPanel | `changeme` |
 | `enable_admin_panel` | Включить AdminPanel + Статистику | `true` |
 | `enable_torrserver` | Включить интеграцию с TorrServer | `false` |
-| `extra_skip_modules` | Мультиселектор отключённых необязательных модулей | все необязательные модули |
+| `extra_skip_modules` | Список отключённых необязательных модулей | необязательные модули, кроме NativeAppleTV |
+| `extra_enable_modules` | Явное включение NinePeso, QRAuth и OidcAuth | пустой список |
 
 ## Как включить модули
 
-По умолчанию **все необязательные модули отключены**. Чтобы включить нужные:
+По умолчанию NativeAppleTV доступен, а необязательные провайдеры выключены. Чтобы включить модуль:
 
 1. Перейди в **Настройки → Дополнения → Lampac NextGen → Конфигурация**
 2. Найди список `extra_skip_modules`
 3. **Удали** названия модулей которые хочешь включить
 4. Нажми **Сохранить** и перезапусти дополнение
 
-Дополнение синхронизирует и `BaseModule.SkipModules`, и upstream-манифесты. Без этого `Music`, `Telemetry` и `DatabaseEditor`, у которых `manifest.enable=false`, невозможно было бы реально включить из панели HA.
+Для NinePeso, QRAuth и OidcAuth добавь нужное имя в `extra_enable_modules`. Дополнение синхронизирует `BaseModule.SkipModules` и манифесты модулей. При обновлении сохраняется выбор в существующем списке отключённых модулей.
+
+Если экран входа обслуживает QRAuth, при одновременном использовании OidcAuth установи `OidcAuth.overrideDeny: false`.
 
 ---
 
@@ -100,7 +103,6 @@
 
 ### 🎬 Русские VOD
 
-Чтобы включить — удали название модуля из `SkipModules` в `init.conf`.
 
 | Модуль | Описание | Примечания |
 |--------|----------|------------|
@@ -137,6 +139,13 @@
 | `VideoDB` | VideoDB | |
 | `FanCDN` | FanCDN | |
 | `Potok` | Potok.rip | |
+| `Aladin` | Aladin | |
+| `Gencit` | Gencit | |
+| `Kinoteatrkg` | Kinoteatr.kg | |
+| `LordFilm` | LordFilm | |
+| `Redheadsound` | Red Head Sound | |
+| `RuDub` | RuDub | |
+| `NinePeso` | NinePeso | Через `extra_enable_modules` |
 
 ---
 
@@ -188,6 +197,7 @@
 | `AnimeON` | AnimeON |
 | `Animebesst` | Animebesst |
 | `AniLiberty` | AniLiberty |
+| `AniDub` | AniDub |
 | `Animevost` | Animevost |
 | `MoonAnime` | MoonAnime |
 
@@ -202,13 +212,18 @@
 | `WatchTogether` | Сеансы совместного просмотра |
 | `WebLog` | Логирование HTTP-запросов |
 | `GStreamer` | Медиапайплайн GStreamer |
-| `Tg-notify.bot` | Бот уведомлений Telegram |
+| `SeriesNotify` | Telegram-уведомления о сериях и озвучках |
+| `NativeAppleTV` | Подключение нативной Lampa/Luxo на Apple TV |
+| `QRAuth` | Вход по QR-коду через Telegram |
+| `OidcAuth` | Вход через OpenID Connect |
 | `LogUserRequest-Lite` | Лёгкий логгер запросов |
 | `Telemetry` | Локальная панель телеметрии (добавлен в 1.39.0) |
 | `Music` | Поиск и воспроизведение музыки (добавлен в 1.42.0) |
 | `DatabaseEditor` | Веб-редактор баз SQLite (добавлен в 1.42.6) |
 
-`AiLiberty`, `Telemetry`, `Music` и `DatabaseEditor` — все новые модули оригинального Lampac NextGen между версиями `1.37.7` и `1.47.2`. По умолчанию все четыре выключены.
+При обновлении секция `TelegramBot` переносится в `SeriesNotify`. Чтобы включить бота, убери из списка отключённых модулей `SeriesNotify` и старый пункт `Tg-notify.bot`, если он выбран.
+
+Для отдельного TorrServer включи модуль `GStreamer`, задай `gst.enable: true` и добавь точный адрес TorrServer (схема, хост и порт) в `gst.trusted_origins` в AdminPanel. Плагин для Lampa доступен на `/gst.js`. Аппаратное кодирование VAAPI требует доступного внутри контейнера устройства и драйвера. [Документация GStreamer](https://github.com/lampac-nextgen/lampac/blob/1.91.1/docs/modules/gstreamer.mdx)
 
 ---
 
