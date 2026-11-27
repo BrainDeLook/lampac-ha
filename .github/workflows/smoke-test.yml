@@ -12,13 +12,18 @@ permissions:
 
 jobs:
   smoke:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - name: Build add-on image
         run: docker build -t lampac-test lampac
       - name: Check installation and upgrade
+        shell: bash
         run: |
           data=$(mktemp -d)
           trap 'docker rm -f lampac-smoke >/dev/null 2>&1 || true; sudo rm -rf "$data"' EXIT
