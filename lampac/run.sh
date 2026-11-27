@@ -16,7 +16,16 @@ echo "Root password configured"
 # Lampac writes user state relative to the working directory and replaces some
 # files atomically. Run in /data so those renames land on the persistent volume.
 # Keep application binaries in the image and expose resources used by relative paths.
-mkdir -p /data/{database,cache,logs} /lampac/mods
+for directory in database cache logs; do
+    mkdir -p "/data/$directory"
+    if [[ -d "/lampac/$directory" && ! -L "/lampac/$directory" ]]; then
+        cp -an "/lampac/$directory/." "/data/$directory/"
+        mv -T "/lampac/$directory" "/lampac/.image-$directory"
+    fi
+    ln -sfnT "/data/$directory" "/lampac/$directory"
+done
+
+mkdir -p /lampac/mods
 for resource in .playwright appsettings.Production.json base.conf data isdocker mods module passwd plugins wwwroot; do
     ln -sfnT "/lampac/$resource" "/data/$resource"
 done
