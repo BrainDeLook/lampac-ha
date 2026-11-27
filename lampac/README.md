@@ -44,6 +44,7 @@ Home Assistant Add-on for [Lampac NextGen](https://github.com/lampac-nextgen/lam
 | `enable_admin_panel` | Enable AdminPanel + Statistics | `true` |
 | `enable_torrserver` | Enable TorrServer integration | `false` |
 | `extra_skip_modules` | Multi-select list of disabled optional modules | all optional modules |
+| `extra_enable_modules` | Enable NinePeso, QRAuth, and OidcAuth | empty list |
 
 ## How to Enable Modules
 
@@ -53,7 +54,7 @@ By default **all optional modules are disabled**. To enable one:
 2. In `extra_skip_modules` (**Disabled modules**), remove the module you want to enable.
 3. Save and restart the add-on.
 
-The add-on synchronizes both `BaseModule.SkipModules` and upstream module manifests. This is required for `Music`, `Telemetry`, and `DatabaseEditor`, whose upstream manifests are disabled by default.
+To load NinePeso, QRAuth, or OidcAuth, add its name to `extra_enable_modules`. The add-on synchronizes `BaseModule.SkipModules` and module manifests. Upgrades preserve selections in the saved disabled-module list.
 
 ---
 
@@ -94,16 +95,18 @@ The add-on synchronizes both `BaseModule.SkipModules` and upstream module manife
 | `WatchTogether` | Synchronized viewing rooms | existing |
 | `WebLog` | HTTP request log | existing |
 | `GStreamer` | Media pipeline | existing |
-| `Tg-notify.bot` | Telegram notification bot | existing |
+| `SeriesNotify` | Telegram notifications for episodes and voice tracks | existing |
+| `NativeAppleTV` | Connect native Lampa/Luxo on Apple TV | existing |
+| `QRAuth` | QR sign-in with Telegram | existing |
+| `OidcAuth` | OpenID Connect sign-in | existing |
 | `LogUserRequest-Lite` | Lightweight request logger | existing |
 
-Together with `AiLiberty` below, the three versioned entries are every new module introduced upstream between `1.37.7` and `1.47.2`. All are disabled by default.
+The add-on migrates the `TelegramBot` section to `SeriesNotify`. To enable the bot, clear `SeriesNotify` and the legacy `Tg-notify.bot` entry if selected.
 
 ---
 
 ### 🎬 Russian VOD
 
-To enable — remove the module name from `SkipModules` in `init.conf`.
 
 | Module | Description | Notes |
 |--------|-------------|-------|
@@ -139,6 +142,13 @@ To enable — remove the module name from `SkipModules` in `init.conf`.
 | `LeProduction` | LeProduction | |
 | `VideoDB` | VideoDB | |
 | `FanCDN` | FanCDN | |
+| `Aladin` | Aladin | |
+| `Gencit` | Gencit | |
+| `Kinoteatrkg` | Kinoteatr.kg | |
+| `LordFilm` | LordFilm | |
+| `Redheadsound` | Red Head Sound | |
+| `RuDub` | RuDub | |
+| `NinePeso` | NinePeso | Via `extra_enable_modules` |
 
 ---
 
@@ -190,8 +200,11 @@ To enable — remove the module name from `SkipModules` in `init.conf`.
 | `AnimeON` | AnimeON |
 | `Animebesst` | Animebesst |
 | `AniLiberty` | AniLiberty |
+| `AniDub` | AniDub |
 | `Animevost` | Animevost |
 | `MoonAnime` | MoonAnime |
+
+For a separate TorrServer, enable the `GStreamer` module, set `gst.enable: true`, and add the exact TorrServer origin (scheme, host, and port) to `gst.trusted_origins` in AdminPanel. The Lampa plugin is available at `/gst.js`. VAAPI encoding requires access to the device and its driver inside the container. [GStreamer documentation](https://github.com/lampac-nextgen/lampac/blob/1.91.1/docs/modules/gstreamer.mdx)
 
 ---
 

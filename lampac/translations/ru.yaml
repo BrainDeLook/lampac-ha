@@ -10,6 +10,9 @@ configuration:
     description: Загружает встроенный модуль интеграции TorrServer. По умолчанию он выключен.
   extra_skip_modules:
     name: Отключённые модули
-    description: Выбранные здесь модули не загружаются. Все необязательные провайдеры и все модули, появившиеся после Lampac 1.37.7, по умолчанию выключены.
+    description: Уберите модуль из списка, чтобы он загрузился после перезапуска. Для SeriesNotify снимите также старый пункт Tg-notify.bot, если он выбран.
+  extra_enable_modules:
+    name: Дополнительные модули
+    description: Выберите NinePeso, QRAuth или OidcAuth для загрузки после перезапуска. Для модулей авторизации потребуется конфигурация Lampac.
 network:
   9118/tcp: API Lampac, веб-интерфейс Lampa и AdminPanel

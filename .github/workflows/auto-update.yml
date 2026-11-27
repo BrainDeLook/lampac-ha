@@ -17,6 +17,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           CHANGED=0
+          AUDIT_DIR=$(mktemp -d)
+          trap 'rm -rf "$AUDIT_DIR"' EXIT
 
           for UPDATER_FILE in */updater.json; do
             ADDON_PATH=$(dirname "$UPDATER_FILE")
@@ -24,12 +26,23 @@ jobs:
             CHANGELOG_URL=$(jq -r '.changelog_url' "$UPDATER_FILE")
             VERSION_PREFIX=$(jq -r '.version_prefix // "v"' "$UPDATER_FILE")
 
-            LATEST=$(curl -s "https://api.github.com/repos/${UPSTREAM_REPO}/releases/latest" | jq -r '.tag_name' | sed "s/^${VERSION_PREFIX}//")
+            LATEST_TAG=$(curl -fsS "https://api.github.com/repos/${UPSTREAM_REPO}/releases/latest" | jq -er '.tag_name')
+            LATEST=${LATEST_TAG#"$VERSION_PREFIX"}
             CURRENT=$(grep '^version:' "${ADDON_PATH}/config.yaml" | awk '{print $2}' | tr -d '"')
 
             echo "[$ADDON_PATH] current=$CURRENT latest=$LATEST"
 
             if [ "$LATEST" != "$CURRENT" ] && [ -n "$LATEST" ] && [ "$LATEST" != "null" ]; then
+              if [ "$ADDON_PATH" = lampac ]; then
+                if curl -fsSL "https://codeload.github.com/${UPSTREAM_REPO}/zip/refs/tags/${CURRENT}" -o "$AUDIT_DIR/current.zip" &&
+                   curl -fsSL "https://codeload.github.com/${UPSTREAM_REPO}/zip/refs/tags/${LATEST_TAG}" -o "$AUDIT_DIR/latest.zip" &&
+                   python3 .github/scripts/audit-modules.py "$AUDIT_DIR/current.zip" "$AUDIT_DIR/latest.zip" "$ADDON_PATH" > "$AUDIT_DIR/report.md"; then
+                  cat "$AUDIT_DIR/report.md" >> "$GITHUB_STEP_SUMMARY"
+                else
+                  echo '::warning::Unable to compare upstream Lampac module manifests'
+                fi
+              fi
+
               DATE=$(date +%Y-%m-%d)
               URL=$(echo "$CHANGELOG_URL" | sed "s/{version}/$LATEST/g")
 

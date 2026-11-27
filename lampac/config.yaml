@@ -1,6 +1,6 @@
 name: "Lampac NextGen"
 description: "Self-hosted backend for Lampa."
-version: "1.90.2"
+version: "1.91.1"
 slug: "lampac"
 url: https://github.com/BrainDeLook/lampac-ha
 arch:
@@ -14,6 +14,7 @@ options:
   root_password: "changeme"
   enable_admin_panel: true
   enable_torrserver: false
+  extra_enable_modules: []
   extra_skip_modules:
     - Kinoflix
     - Vibix
@@ -40,6 +41,7 @@ options:
     - Kodik
     - AnimeLib
     - AiLiberty
+    - AniDub
     - Mikai
     - AniLibria
     - AnimeGo
@@ -97,12 +99,19 @@ options:
     - JacRed
     - Videasy
     - Potok
+    - Aladin
+    - Gencit
+    - Kinoteatrkg
+    - LordFilm
+    - Redheadsound
+    - RuDub
     - NextHUB
     - Sync
     - WatchTogether
     - WebLog
     - GStreamer
-    - Tg-notify.bot
+    - SeriesNotify
+    - NativeAppleTV
     - LogUserRequest-Lite
     - DatabaseEditor
     - Music
@@ -111,8 +120,10 @@ schema:
   root_password: str
   enable_admin_panel: bool
   enable_torrserver: bool
+  extra_enable_modules:
+    - "list(NinePeso|QRAuth|OidcAuth)"
   extra_skip_modules:
-    - "list(Kinoflix|Vibix|Collaps|Zetflix|Kinobase|Kinotochka|PizdatoeHD|Mirage|Phantom|CDNvideohub|Videoseed|RutubeMovie|Spectre|FlixCDN|VeoVeo|VkMovie|Kinogo|LeProduction|VideoDB|HDVB|ZetflixDB|FanCDN|Kodik|AnimeLib|AiLiberty|Mikai|AniLibria|AnimeGo|Dreamerscast|AnimeON|AniMedia|Animebesst|AniLiberty|Animevost|MoonAnime|HQporner|Chaturbate|Runetki|PornHub|Tizam|Xnxx|Porntrex|Eporner|BongaCams|Xvideos|XvideosRED|Xhamster|Spankbang|Ebalovo|SISI|PidTor|PlayEmbed|SmashyStream|TwoEmbed|RgShows|VidSrc|AutoEmbed|MovPI|VidLink|HydraFlix|Geosaitebi|BamBoo|AsiaGe|HdvbUA|UaKino|Eneyida|KinoUkr|Tortuga|Ashdi|UAFilm|Alloha|GetsTV|SakhTV|KinoPub|IptvOnline|Rezka|iRemux|VoKino|Filmix|JacRed|Videasy|Potok|NextHUB|Sync|WatchTogether|WebLog|GStreamer|Tg-notify.bot|LogUserRequest-Lite|DatabaseEditor|Music|Telemetry)"
+    - "list(Kinoflix|Vibix|Collaps|Zetflix|Kinobase|Kinotochka|PizdatoeHD|Mirage|Phantom|CDNvideohub|Videoseed|RutubeMovie|Spectre|FlixCDN|VeoVeo|VkMovie|Kinogo|LeProduction|VideoDB|HDVB|ZetflixDB|FanCDN|Kodik|AnimeLib|AiLiberty|AniDub|Mikai|AniLibria|AnimeGo|Dreamerscast|AnimeON|AniMedia|Animebesst|AniLiberty|Animevost|MoonAnime|HQporner|Chaturbate|Runetki|PornHub|Tizam|Xnxx|Porntrex|Eporner|BongaCams|Xvideos|XvideosRED|Xhamster|Spankbang|Ebalovo|SISI|PidTor|PlayEmbed|SmashyStream|TwoEmbed|RgShows|VidSrc|AutoEmbed|MovPI|VidLink|HydraFlix|Geosaitebi|BamBoo|AsiaGe|HdvbUA|UaKino|Eneyida|KinoUkr|Tortuga|Ashdi|UAFilm|Alloha|GetsTV|SakhTV|KinoPub|IptvOnline|Rezka|iRemux|VoKino|Filmix|JacRed|Videasy|Potok|Aladin|Gencit|Kinoteatrkg|LordFilm|Redheadsound|RuDub|NextHUB|Sync|WatchTogether|WebLog|GStreamer|SeriesNotify|Tg-notify.bot|NativeAppleTV|LogUserRequest-Lite|DatabaseEditor|Music|Telemetry)"
 ports:
   9118/tcp: 9118
 ports_description:

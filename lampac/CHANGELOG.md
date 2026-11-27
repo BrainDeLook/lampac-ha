@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.91.1 (2026-11-27)
+
+- Update to [Lampac 1.91.1](https://github.com/lampac-nextgen/lampac/releases/tag/1.91.1), including NinePeso and the fix for viewed marks across translations.
+- Expose AniDub, Aladin, Gencit, Kinoteatrkg, LordFilm, Redheadsound, RuDub, and NativeAppleTV in the Home Assistant module selector. Add an opt-in selector for NinePeso, QRAuth, and OidcAuth.
+- Migrate TelegramBot configuration to SeriesNotify and preserve previous HA choices and the existing subscription directory.
+- Synchronize upstream manifests for WatchTogether, LogUserRequest-Lite, XvideosRED, SeriesNotify, QRAuth, and OidcAuth.
+- Keep atomic configuration and account updates in the persistent add-on volume and honor the AdminPanel off setting.
+- Report upstream module inventory changes when the automatic updater bumps the image tag.
+
 ## 1.90.2 (2026-11-23)
 
 - Update to upstream version (changelog: https://github.com/lampac-nextgen/lampac/releases/tag/1.90.2)
