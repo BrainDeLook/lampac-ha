@@ -111,7 +111,6 @@ options:
     - WebLog
     - GStreamer
     - SeriesNotify
-    - NativeAppleTV
     - LogUserRequest-Lite
     - DatabaseEditor
     - Music

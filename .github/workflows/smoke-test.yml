@@ -39,6 +39,7 @@ jobs:
           ruby -ryaml -rjson -e 'puts YAML.safe_load_file(ARGV[0])["options"].to_json' lampac/config.yaml > "$data/options.json"
           start
           jq -e '.openstat.enable and (.BaseModule.SkipModules | index("NinePeso"))' "$data/init.conf"
+          curl -fsS http://127.0.0.1:19119/api/capabilities | jq -e '.source.protocol == "luxo-source/1"'
           test "$(docker exec lampac-smoke readlink -f /lampac/database)" = /data/database
           docker rm -f lampac-smoke
 

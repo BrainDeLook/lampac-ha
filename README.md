@@ -43,12 +43,12 @@ Home Assistant Add-on for [Lampac NextGen](https://github.com/lampac-nextgen/lam
 | `root_password` | AdminPanel root password | `changeme` |
 | `enable_admin_panel` | Enable AdminPanel + Statistics | `true` |
 | `enable_torrserver` | Enable TorrServer integration | `false` |
-| `extra_skip_modules` | Multi-select list of disabled optional modules | all optional modules |
+| `extra_skip_modules` | Multi-select list of disabled optional modules | optional modules except NativeAppleTV |
 | `extra_enable_modules` | Enable NinePeso, QRAuth, and OidcAuth | empty list |
 
 ## How to Enable Modules
 
-By default **all optional modules are disabled**. To enable one:
+The default configuration keeps NativeAppleTV available and disables optional providers. To enable a module:
 
 1. Go to **Settings → Add-ons → Lampac NextGen → Configuration**
 2. Find the `extra_skip_modules` list
@@ -56,6 +56,8 @@ By default **all optional modules are disabled**. To enable one:
 4. Click **Save** and restart the add-on
 
 To load NinePeso, QRAuth, or OidcAuth, add its name to `extra_enable_modules`. The add-on synchronizes `BaseModule.SkipModules` and module manifests. Upgrades preserve selections in the saved disabled-module list.
+
+When QRAuth provides the login screen, set `OidcAuth.overrideDeny` to `false` if you also use OidcAuth.
 
 ---
 
